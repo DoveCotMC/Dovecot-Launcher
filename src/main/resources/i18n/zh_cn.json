@@ -1,0 +1,12 @@
+{
+    "FRAME_TITLE": "鸽舍启动器",
+    "MENU_GENERAL_SETTINGS": "通用设置",
+    "LAUNCHER_SETTINGS": "启动器设置",
+    "LANGUAGE_SETTINGS": "语言设置",
+    "MENU_GAME_SETTINGS": "游戏设置",
+    "JVM_SETTINGS": "Java虚拟机设置",
+    "ACCOUNT_SETTINGS": "账号设置",
+    "MENU_MISC_SETTINGS": "其他设置",
+    "ABOUT_LAUNCHER": "关于",
+    "OPEN_GITHUB": "打开Github"
+}

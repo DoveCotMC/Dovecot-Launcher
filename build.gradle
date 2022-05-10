@@ -1,0 +1,39 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+    id "com.github.johnrengelman.shadow" version "7.1.2"
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+mainClassName = 'dev.dovecot.launcher.core.Main'
+
+jar {
+    manifest {
+        attributes "Main-Class": "dev.dovecot.launcher.core.Main"
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    implementation 'org.json:json:20220320'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    implementation fileTree(dir: 'libs', include:['*.jar'])
+}
+
+javafx {
+    version = "11.0.2"
+    modules = []
+    //modules = ['javafx.base', 'javafx.controls', 'javafx.graphics', 'javafx.media', 'javafx.swing', 'javafx.web']
+}
+
+test {
+    useJUnitPlatform()
+}

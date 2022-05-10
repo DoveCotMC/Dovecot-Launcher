@@ -1,0 +1,12 @@
+{
+    "FRAME_TITLE": "Dovecot Launcher",
+    "MENU_GENERAL_SETTINGS": "General Settings",
+    "LAUNCHER_SETTINGS": "Launcher Settings",
+    "LANGUAGE_SETTINGS": "Language Settings",
+    "MENU_GAME_SETTINGS": "Game Settings",
+    "JVM_SETTINGS": "JVM Settings",
+    "ACCOUNT_SETTINGS": "Account Settings",
+    "MENU_MISC_SETTINGS": "Misc Settings",
+    "ABOUT_LAUNCHER": "About",
+    "OPEN_GITHUB": "Open Github"
+}
