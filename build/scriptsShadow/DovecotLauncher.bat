@@ -63,7 +63,7 @@ set CMD_LINE_ARGS=%*
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\DovecotLauncher-1.0-SNAPSHOT-all.jar
+set CLASSPATH=%APP_HOME%\lib\DovecotLauncher-1.0-all.jar
 
 @rem Execute DovecotLauncher
 "%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %DOVECOT_LAUNCHER_OPTS%  -jar "%CLASSPATH%" %CMD_LINE_ARGS%

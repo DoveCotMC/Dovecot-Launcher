@@ -67,11 +67,11 @@ goto fail
 :execute
 @rem Setup the command line
 
-set CLASSPATH=%APP_HOME%\lib\DovecotLauncher-1.0-SNAPSHOT.jar;%APP_HOME%\lib\DovecotLauncherCore.jar;%APP_HOME%\lib\json-20220320.jar;%APP_HOME%\lib\commons-lang3-3.12.0.jar;%APP_HOME%\lib\oshi-core-6.1.6.jar;%APP_HOME%\lib\javafx-swing-11.0.2-win.jar;%APP_HOME%\lib\javafx-web-11.0.2-win.jar;%APP_HOME%\lib\javafx-media-11.0.2-win.jar;%APP_HOME%\lib\javafx-media-11.0.2.jar;%APP_HOME%\lib\javafx-controls-11.0.2-win.jar;%APP_HOME%\lib\javafx-controls-11.0.2.jar;%APP_HOME%\lib\javafx-graphics-11.0.2-win.jar;%APP_HOME%\lib\javafx-graphics-11.0.2.jar;%APP_HOME%\lib\javafx-base-11.0.2-win.jar;%APP_HOME%\lib\javafx-base-11.0.2.jar;%APP_HOME%\lib\jna-platform-5.11.0.jar;%APP_HOME%\lib\jna-5.11.0.jar;%APP_HOME%\lib\slf4j-api-1.7.36.jar
+set CLASSPATH=%APP_HOME%\lib\DovecotLauncher-1.0.jar;%APP_HOME%\lib\DovecotLauncherCore.jar;%APP_HOME%\lib\json-20220320.jar;%APP_HOME%\lib\commons-lang3-3.12.0.jar
 
 
 @rem Execute DovecotLauncher
-"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %DOVECOT_LAUNCHER_OPTS%  -classpath "%CLASSPATH%" dev.dovecot.launcher.core.Main %*
+"%JAVA_EXE%" %DEFAULT_JVM_OPTS% %JAVA_OPTS% %DOVECOT_LAUNCHER_OPTS%  -classpath "%CLASSPATH%" dev.dovecot.launcher.Main %*
 
 :end
 @rem End local scope for the variables with windows NT shell

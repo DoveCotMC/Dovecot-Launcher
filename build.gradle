@@ -1,18 +1,18 @@
 plugins {
     id 'java'
     id 'application'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
+//    id 'org.openjfx.javafxplugin' version '0.0.10'
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
-group 'org.example'
-version '1.0-SNAPSHOT'
+group 'dev.dovecot.launcher'
+version '1.0'
 
-mainClassName = 'dev.dovecot.launcher.core.Main'
+mainClassName = 'dev.dovecot.launcher.Main'
 
 jar {
     manifest {
-        attributes "Main-Class": "dev.dovecot.launcher.core.Main"
+        attributes "Main-Class": "dev.dovecot.launcher.Main"
     }
 }
 
@@ -28,11 +28,11 @@ dependencies {
     implementation fileTree(dir: 'libs', include:['*.jar'])
 }
 
-javafx {
-    version = "11.0.2"
-    modules = []
-    //modules = ['javafx.base', 'javafx.controls', 'javafx.graphics', 'javafx.media', 'javafx.swing', 'javafx.web']
-}
+//javafx {
+//    version = "11.0.2"
+//    modules = []
+//    //modules = ['javafx.base', 'javafx.controls', 'javafx.graphics', 'javafx.media', 'javafx.swing', 'javafx.web']
+//}
 
 test {
     useJUnitPlatform()
