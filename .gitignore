@@ -1,0 +1,6 @@
+/.gradle
+/.idea
+/.minecraft
+/build
+/logs
+/account.json

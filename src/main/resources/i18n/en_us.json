@@ -1,12 +1,7 @@
 {
     "FRAME_TITLE": "Dovecot Launcher",
-    "MENU_GENERAL_SETTINGS": "General Settings",
-    "LAUNCHER_SETTINGS": "Launcher Settings",
-    "LANGUAGE_SETTINGS": "Language Settings",
-    "MENU_GAME_SETTINGS": "Game Settings",
-    "JVM_SETTINGS": "JVM Settings",
-    "ACCOUNT_SETTINGS": "Account Settings",
-    "MENU_MISC_SETTINGS": "Misc Settings",
-    "ABOUT_LAUNCHER": "About",
-    "OPEN_GITHUB": "Open Github"
+    "TITLE_LOGIN": "Login with Just a skin website Account",
+    "BUTTON_SIGN_UP": "Register",
+    "BUTTON_LOGIN": "Login",
+    "BUTTON_LAUNCH": "Launch the Game"
 }
