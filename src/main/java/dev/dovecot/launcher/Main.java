@@ -20,53 +20,89 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Main
 {
     public static final int JAVA_VERSION = (int) (Double.parseDouble(System.getProperty("java.class.version")) - 44);
-    public static final String MAIN_CLASS = "dev.dovecot.launcher.core.Main";
+    public static final String MAIN_CLASS = "dev.dovecot.launcher.Main";
+    public static final String ENVIRONMENT_CLASS = "dev.dovecot.launcher.javafx.JavaFxEnvironmentChecker";
 
-    public static AbstractAccount account = new OfflineAccount("Dev");
+    public static AbstractAccount account;
 
     public static void main(final String[] args) throws Exception
     {
-//        final String userDir = System.getProperty("user.dir") + File.separator + System.getProperty("java.class.path");
-//        if (!userDir.contains(";"))
+//        if (JAVA_VERSION < 11)
 //        {
-//            try
-//            {
-//                Class.forName("javafx.application.Application");
-//            }
-//            catch (ClassNotFoundException e)
-//            {
-//                Process process = Runtime.getRuntime().exec(new String[]{System.getProperty("java.library.path").split(File.pathSeparator)[0].replace("/", "\\") + "\\java.exe", "-cp", userDir, });
-//                System.out.println(new String(process.getInputStream().readAllBytes()));
-//                System.out.println(new String(process.getErrorStream().readAllBytes()));
-//            }
+//            JOptionPane.showMessageDialog(null, "Please use Java 11 or later!", "Error!", JOptionPane.ERROR_MESSAGE);
+//            throw new RuntimeException("Unsupported Java version");
 //        }
-        if (new File("account.json").exists())
+//        else
+        // This program also run on Java 8
+        if (true)
         {
-            System.out.println(new String(FileUtils.readFile(new File("account.json")), StandardCharsets.UTF_8));
-            account = AuthlibInjectorAccount.fromJson(new JSONObject(new String(FileUtils.readFile(new File("account.json")), StandardCharsets.UTF_8)));
-            main();
-        }
-        else
-        {
-            login(WindowConstants.EXIT_ON_CLOSE);
+            if (Arrays.asList(args).contains("--runExp"))
+            {
+                final String userDir = System.getProperty("java.class.path");
+                if (!userDir.contains(";"))
+                {
+                    try
+                    {
+                        Class.forName("javafx.application.Application");
+                    }
+                    catch (ClassNotFoundException e)
+                    {
+                        final Process process = Runtime.getRuntime().exec(new String[]{System.getProperty("java.library.path").split(File.pathSeparator)[0].replace("/", "\\") + "\\java.exe", "-cp", userDir, ENVIRONMENT_CLASS});
+                        System.out.println(new String(process.getInputStream().readAllBytes()));
+                        System.out.println(new String(process.getErrorStream().readAllBytes()));
+                    }
+                }
+            }
+            else
+            {
+                DovecotCore.init();
+                if (new File("account.json").exists())
+                {
+                    account = AuthlibInjectorAccount.fromJson(new JSONObject(new String(FileUtils.readFile(new File("account.json")), StandardCharsets.UTF_8)));
+                    main();
+                }
+                else
+                {
+                    login(WindowConstants.EXIT_ON_CLOSE);
+                }
+            }
         }
     }
 
     private static void main() throws Exception
     {
         AtomicBoolean isRunning = new AtomicBoolean(false);
-        DovecotCore.init();
         final JFrame mainFrame = new JFrame(I18nManager.getTranslation("FRAME_TITLE"));
         mainFrame.setSize(600, 400);
         mainFrame.setResizable(false);
         mainFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         final JMenuBar menuBar = new JMenuBar();
+
+        final JMenu authMenu = new JMenu(I18nManager.getTranslation("MENU_ACCOUNT"));
+        final JMenuItem reAuthMenuItem = new JMenuItem(I18nManager.getTranslation("MENU_ITEM_LOGOUT"));
+        reAuthMenuItem.addActionListener(e ->
+        {
+            try
+            {
+                new File("account.json").delete();
+                mainFrame.dispose();
+                login(JFrame.EXIT_ON_CLOSE);
+            }
+            catch (Exception ex)
+            {
+                throw new RuntimeException(ex);
+            }
+        });
+        authMenu.add(reAuthMenuItem);
+        menuBar.add(authMenu);
+
         mainFrame.setJMenuBar(menuBar);
 
         final JPanel panel = new JPanel();
@@ -81,9 +117,10 @@ public class Main
             {
                 if (!isRunning.get())
                 {
-                    isRunning.set(true);
                     if (new File(".minecraft").exists())
                     {
+                        launchButton.setEnabled(false);
+                        isRunning.set(true);
                         final GameVersion version = new GameDirectory("Primary",".minecraft").loadVersions().get(0);
                         final GameTask task = GameTask.generateNewTask(version, System.getProperty("java.library.path").split(";")[0].replace("/", "\\") + "\\java.exe", GameTask.generateJVMArguments(version), account);
                         final Process process = task.run();
@@ -100,6 +137,7 @@ public class Main
                                     log.setText(logStr);
                                 }
                                 isRunning.set(false);
+                                launchButton.setEnabled(true);
                             }
                             catch (IOException exception)
                             {

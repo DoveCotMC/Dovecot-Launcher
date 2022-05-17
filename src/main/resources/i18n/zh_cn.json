@@ -3,5 +3,8 @@
     "TITLE_LOGIN": "使用Just a Skin Website账号登录",
     "BUTTON_SIGN_UP": "注册（浏览器）",
     "BUTTON_LOGIN": "登录",
-    "BUTTON_LAUNCH": "启动游戏"
+    "BUTTON_LAUNCH": "启动游戏",
+    "TEXT_NO_GAME_DIR": "未找到游戏目录！",
+    "MENU_ACCOUNT": "账号",
+    "MENU_ITEM_LOGOUT": "登出"
 }

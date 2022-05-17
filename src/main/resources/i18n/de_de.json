@@ -3,5 +3,8 @@
     "TITLE_LOGIN": "Mit Just a skin website Account einloggen",
     "BUTTON_SIGN_UP": "Registrieren",
     "BUTTON_LOGIN": "Einloggen",
-    "BUTTON_LAUNCH": "Spiel starten"
+    "BUTTON_LAUNCH": "Spiel starten",
+    "TEXT_NO_GAME_DIR": "Es gibt kein Spielverzeichnis!",
+    "MENU_ACCOUNT": "Konten",
+    "MENU_ITEM_LOGOUT": "Ausloggen"
 }
