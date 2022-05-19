@@ -3,7 +3,6 @@ package dev.dovecot.launcher;
 import dev.dovecot.launcher.core.DovecotCore;
 import dev.dovecot.launcher.core.auth.AbstractAccount;
 import dev.dovecot.launcher.core.auth.AuthlibInjectorAccount;
-import dev.dovecot.launcher.core.auth.OfflineAccount;
 import dev.dovecot.launcher.core.game.GameDirectory;
 import dev.dovecot.launcher.core.game.GameTask;
 import dev.dovecot.launcher.core.game.GameVersion;
@@ -17,11 +16,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Main
 {
@@ -86,8 +89,25 @@ public class Main
         final JMenuBar menuBar = new JMenuBar();
 
         final JMenu authMenu = new JMenu(I18nManager.getTranslation("MENU_ACCOUNT"));
-        final JMenuItem reAuthMenuItem = new JMenuItem(I18nManager.getTranslation("MENU_ITEM_LOGOUT"));
-        reAuthMenuItem.addActionListener(e ->
+        final JMenuItem manageAccountItem = new JMenuItem(I18nManager.getTranslation("MENU_ITEM_ACCOUNT_MANAGE"));
+        manageAccountItem.addActionListener(e ->
+        {
+            try
+            {
+                if (Desktop.isDesktopSupported())
+                {
+                    final Desktop desktop = Desktop.getDesktop();
+                    desktop.browse(new URI(DovecotCore.SKIN_WEBSITE + "auth/login"));
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new RuntimeException(exception);
+            }
+        });
+        authMenu.add(manageAccountItem);
+        final JMenuItem logOutMenuItem = new JMenuItem(I18nManager.getTranslation("MENU_ITEM_LOGOUT"));
+        logOutMenuItem.addActionListener(e ->
         {
             try
             {
@@ -100,7 +120,7 @@ public class Main
                 throw new RuntimeException(ex);
             }
         });
-        authMenu.add(reAuthMenuItem);
+        authMenu.add(logOutMenuItem);
         menuBar.add(authMenu);
 
         mainFrame.setJMenuBar(menuBar);
@@ -109,6 +129,9 @@ public class Main
         panel.setLayout(new BorderLayout());
         final JTextArea log = new JTextArea();
         log.setEditable(false);
+        log.setEnabled(false);
+        log.setDisabledTextColor(Color.BLACK);
+//        log.setDragEnabled(false);
         panel.add(log, BorderLayout.CENTER);
         final JButton launchButton = new JButton(I18nManager.getTranslation("BUTTON_LAUNCH"));
         launchButton.addActionListener(e ->
@@ -121,6 +144,10 @@ public class Main
                     {
                         launchButton.setEnabled(false);
                         isRunning.set(true);
+                        if (!((AuthlibInjectorAccount) account).isTokenAvailable())
+                        {
+                            account = ((AuthlibInjectorAccount) account).refresh();
+                        }
                         final GameVersion version = new GameDirectory("Primary",".minecraft").loadVersions().get(0);
                         final GameTask task = GameTask.generateNewTask(version, System.getProperty("java.library.path").split(";")[0].replace("/", "\\") + "\\java.exe", GameTask.generateJVMArguments(version), account);
                         final Process process = task.run();
@@ -133,8 +160,12 @@ public class Main
                                 String logStr = "";
                                 while (process.isAlive())
                                 {
-                                    logStr = reader.readLine() + "\n" + logStr;
-                                    log.setText(logStr);
+                                    final String line = reader.readLine();
+                                    if (!Objects.isNull(line))
+                                    {
+                                        logStr = reader.readLine() + "\n" + logStr;
+                                        log.setText(logStr);
+                                    }
                                 }
                                 isRunning.set(false);
                                 launchButton.setEnabled(true);

@@ -6,5 +6,6 @@
     "BUTTON_LAUNCH": "启动游戏",
     "TEXT_NO_GAME_DIR": "未找到游戏目录！",
     "MENU_ACCOUNT": "账号",
-    "MENU_ITEM_LOGOUT": "登出"
+    "MENU_ITEM_LOGOUT": "登出",
+    "MENU_ITEM_ACCOUNT_MANAGE": "管理账号"
 }

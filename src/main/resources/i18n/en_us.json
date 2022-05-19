@@ -6,5 +6,6 @@
     "BUTTON_LAUNCH": "Launch the Game",
     "TEXT_NO_GAME_DIR": "Could not find Game Directory!",
     "MENU_ACCOUNT": "Accounts",
-    "MENU_ITEM_LOGOUT": "Logout"
+    "MENU_ITEM_LOGOUT": "Logout",
+    "MENU_ITEM_ACCOUNT_MANAGE": "Account management"
 }
