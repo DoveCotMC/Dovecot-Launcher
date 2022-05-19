@@ -6,7 +6,7 @@ plugins {
 }
 
 group 'dev.dovecot.launcher'
-version '1.1'
+version '1.2'
 
 mainClassName = 'dev.dovecot.launcher.Main'
 
