@@ -97,7 +97,7 @@ public class Main
                 if (Desktop.isDesktopSupported())
                 {
                     final Desktop desktop = Desktop.getDesktop();
-                    desktop.browse(new URI(DovecotCore.SKIN_WEBSITE + "auth/login"));
+                    desktop.browse(new URI(DovecotCore.SKIN_WEBSITE + "user"));
                 }
             }
             catch (Exception exception)
@@ -106,11 +106,12 @@ public class Main
             }
         });
         authMenu.add(manageAccountItem);
-        final JMenuItem logOutMenuItem = new JMenuItem(I18nManager.getTranslation("MENU_ITEM_LOGOUT"));
-        logOutMenuItem.addActionListener(e ->
+        final JMenuItem logoutMenuItem = new JMenuItem(I18nManager.getTranslation("MENU_ITEM_LOGOUT"));
+        logoutMenuItem.addActionListener(e ->
         {
             try
             {
+                ((AuthlibInjectorAccount) account).invalidate();
                 new File("account.json").delete();
                 mainFrame.dispose();
                 login(JFrame.EXIT_ON_CLOSE);
@@ -120,7 +121,7 @@ public class Main
                 throw new RuntimeException(ex);
             }
         });
-        authMenu.add(logOutMenuItem);
+        authMenu.add(logoutMenuItem);
         menuBar.add(authMenu);
 
         mainFrame.setJMenuBar(menuBar);
